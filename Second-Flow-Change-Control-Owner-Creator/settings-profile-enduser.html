@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings | QMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="global.css" />
+  <style>
+    /* ===================================
+       SETTINGS - SUBTABS
+       =================================== */
+
+    .settings-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: var(--spacing-xl);
+      align-items: start;
+    }
+
+    .settings-nav {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-sm);
+      border: 1px solid var(--color-border-light);
+      position: sticky;
+      top: var(--content-padding);
+    }
+
+    .settings-nav a {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: var(--transition-base);
+    }
+
+    .settings-nav a i {
+      font-size: 15px;
+    }
+
+    .settings-nav a:hover {
+      background: var(--color-bg-meta);
+      color: var(--color-text-primary);
+    }
+
+    .settings-nav a.active {
+      background: var(--color-secondary);
+      color: var(--color-primary);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    /* ===================================
+       PROFILE
+       =================================== */
+
+    .profile-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--color-secondary);
+      border: 2px solid var(--color-border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: var(--font-weight-bold);
+      color: var(--color-primary);
+      flex-shrink: 0;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+      padding-bottom: var(--spacing-xl);
+      border-bottom: 1px solid var(--color-border-light);
+    }
+
+    .profile-header-info h3 {
+      margin: 0 0 4px 0;
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .profile-header-info p {
+      margin: 0;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .profile-section-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .logout-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: 8px 16px;
+      border: 1px solid #fecaca;
+      background: #fff5f5;
+      color: #dc2626;
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition-base);
+    }
+
+    .logout-btn:hover {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="bi bi-files"></i>
+        <a href="dashboard-cc-owner.html" style="color: inherit; text-decoration: none;"><span>EAMI QMS</span></a>
+      </div>
+    </div>
+
+    <div class="sidebar-body">
+      <nav>
+        <a href="dashboard-cc-owner.html">Dashboard</a>
+        <a href="all-change-controls.html">All Change Controls</a>
+        <a href="my-change-controls.html">My Change Controls</a>
+        <a href="approvals-empty.html">Approvals</a>
+        <a href="settings-profile-enduser.html" class="active">Settings</a>
+      </nav>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- Page Header -->
+    <div class="page-header-with-action">
+      <div>
+        <h1>Settings</h1>
+      </div>
+    </div>
+
+    <div class="settings-layout">
+
+      <!-- Settings Nav -->
+      <nav class="settings-nav">
+        <a href="settings-profile-enduser.html" class="active">
+          <i class="bi bi-person-circle"></i> Profile
+        </a>
+      </nav>
+
+      <!-- Profile Content -->
+      <div class="settings-content">
+
+        <!-- ================== Account Info ================== -->
+        <section class="card">
+
+          <!-- Avatar + Name -->
+          <div class="profile-header">
+            <div class="profile-avatar">JD</div>
+            <div class="profile-header-info">
+              <h3>John Doe</h3>
+              <p>End User &nbsp;·&nbsp; john.doe@eami.ae</p>
+            </div>
+          </div>
+
+          <!-- Account Details -->
+          <p class="profile-section-label">Account Details</p>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" class="form-control" value="John Doe" />
+            </div>
+
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" class="form-control" value="john.doe@eami.ae" disabled />
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end;">
+            <button class="btn primary">
+              <i class="bi bi-check-lg"></i> Save Changes
+            </button>
+          </div>
+
+        </section>
+
+        <!-- ================== Change Password ================== -->
+        <section class="card">
+          <h2 style="margin-top: 0;">Change Password</h2>
+
+          <div class="form-group">
+            <label>Current Password *</label>
+            <input type="password" class="form-control" placeholder="Enter your current password" />
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>New Password *</label>
+              <input type="password" class="form-control" placeholder="Enter new password" />
+            </div>
+
+            <div class="form-group">
+              <label>Confirm New Password *</label>
+              <input type="password" class="form-control" placeholder="Re-enter new password" />
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end;">
+            <button class="btn primary">
+              <i class="bi bi-shield-lock"></i> Update Password
+            </button>
+          </div>
+        </section>
+
+        <!-- ================== Sign Out ================== -->
+        <section class="card">
+          <h2 style="margin-top: 0;">Session</h2>
+          <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin: 0 0 var(--spacing-lg) 0;">
+            Signing out will end your current session.
+          </p>
+          <a href="login.html" class="logout-btn">
+            <i class="bi bi-box-arrow-right"></i> Sign Out
+          </a>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
