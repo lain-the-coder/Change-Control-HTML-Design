@@ -58,7 +58,7 @@
           <div class="meta-value">Initiated</div>
         </div>
         <div class="meta-item">
-          <label>Created By</label>
+          <label>Change Owner</label>
           <div class="meta-value">John Doe</div>
         </div>
         <div class="meta-item">
@@ -111,7 +111,6 @@
             <option value="">Select category</option>
             <option>Normal</option>
             <option>Standard</option>
-            <option>Emergency</option>
           </select>
         </div>
 
@@ -129,55 +128,46 @@
         </div>
       </div>
 
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Change Owner *</label>
-          <select class="form-control">
-            <option value="">Select owner</option>
-            <option>John Doe</option>
-            <option>Jane Smith</option>
-          </select>
-        </div>
+
 
         <div class="form-group">
           <label>Affected Systems / Modules *</label>
           <input type="text" class="form-control"
                  placeholder="e.g. Kiosk App, Payment Service, Production Environment" />
         </div>
-      </div>
 
       <h3 class="section-subtitle">Planning</h3>
+	  
 
-      <div class="grid-3">
-        <div class="form-group">
-          <label>Proposed Implementation Date *</label>
-          <input type="date" class="form-control" />
-        </div>
+<!-- First row: Date fields -->
+<div class="grid-2">
+  <div class="form-group">
+    <label>Proposed Implementation Date *</label>
+    <input type="date" class="form-control" />
+  </div>
 
-        <div class="form-group">
-          <label>Implementation Window Start</label>
-          <input type="time" class="form-control" />
-          <div class="field-hint">Optional (recommended for IT changes)</div>
-        </div>
+  <div class="form-group">
+    <label>Target Closure Date *</label>
+    <input type="date" class="form-control" />
+    <div class="field-hint">Date by which this change should be fully closed (minimum 10 business days from now)</div>
+  </div>
+</div>
 
-        <div class="form-group">
-          <label>Implementation Window End</label>
-          <input type="time" class="form-control" />
-          <div class="field-hint">Optional (recommended for IT changes)</div>
-        </div>
-      </div>
+<!-- Second row: Time window fields -->
+<div class="grid-2">
+  <div class="form-group">
+    <label>Implementation Window Start</label>
+    <input type="time" class="form-control" />
+    <div class="field-hint">Optional (recommended for IT changes)</div>
+  </div>
 
-      <div class="form-group">
-        <label>Estimated Effort *</label>
-        <select class="form-control">
-          <option value="">Select effort</option>
-          <option>Under 6 hours</option>
-          <option>6-12 hours</option>
-          <option>1 day</option>
-          <option>2–3 day</option>
-          <option>1 week or more</option>
-        </select>
-      </div>
+  <div class="form-group">
+    <label>Implementation Window End</label>
+    <input type="time" class="form-control" />
+    <div class="field-hint">Optional (recommended for IT changes)</div>
+  </div>
+</div>
+
     </section>
 
     <!-- ================== Impact & Risk ================== -->
@@ -352,11 +342,11 @@
           <div class="field-na">Not applicable – Pending submission</div>
         </div>
 
-        <div class="form-group">
-          <label>Risk Level</label>
-          <div class="field-na">Select Risk Level</div>
-          <div class="field-hint">Will be finalized by approver</div>
-        </div>
+        
+		<div class="form-group">
+			<label>Risk Level</label>
+			<div class="field-na">Not applicable – Will be set by approver during review</div>
+		</div>
       </div>
 
       <div class="form-group">
@@ -404,13 +394,18 @@
       <div class="grid-2">
         <div class="form-group">
           <label>Implementation Approval Status</label>
-          <div class="meta-value">Pending</div>
+          <div class="meta-value">Not Submitted</div>
         </div>
         <div class="form-group">
           <label>Final Approval Status</label>
-          <div class="meta-value">Pending</div>
+          <div class="meta-value">Not Submitted</div>
         </div>
       </div>
+	  <div class="form-group">
+  <label>Actual Closure Date</label>
+  <div class="meta-value">—</div>
+  <div class="field-hint">System-captured when CC is closed</div>
+</div>
     </section>
 
     <!-- ================== Additional Information ================== -->

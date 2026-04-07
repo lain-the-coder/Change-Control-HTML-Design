@@ -56,8 +56,8 @@
           <label>Current State</label>
           <div class="meta-value">Cancelled</div>
         </div>
-        <div class="meta-item">
-          <label>Created By</label>
+         <div class="meta-item">
+          <label>Change Owner</label>
           <div class="meta-value">John Doe</div>
         </div>
         <div class="meta-item">
@@ -110,47 +110,40 @@
         </div>
       </div>
 
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Change Owner *</label>
-          <select class="form-control" disabled>
-            <option>John Doe</option>
-          </select>
-        </div>
+ 
 
         <div class="form-group">
           <label>Affected Systems / Modules *</label>
           <input type="text" class="form-control" disabled
                  value="Kiosk App, Payment Summary Screen, Receipt Template (Prod)" />
         </div>
-      </div>
 
       <h3 class="section-subtitle">Planning</h3>
 
-      <div class="grid-3">
+      <div class="grid-2">
         <div class="form-group">
           <label>Proposed Implementation Date *</label>
           <input type="date" class="form-control" disabled value="2026-01-28" />
         </div>
 
         <div class="form-group">
+          <label>Target Closure Date *</label>
+            <input type="date" class="form-control" disabled value="2026-02-15" />
+        </div>
+	  </div>
+
+	  <div class="grid-2">
+        <div class="form-group">
           <label>Implementation Window Start</label>
           <input type="time" class="form-control" disabled value="02:00" />
           <div class="field-hint">Optional (recommended for IT changes)</div>
         </div>
-
-        <div class="form-group">
+		
+		<div class="form-group">
           <label>Implementation Window End</label>
           <input type="time" class="form-control" disabled value="04:00" />
           <div class="field-hint">Optional (recommended for IT changes)</div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label>Estimated Effort *</label>
-        <select class="form-control" disabled>
-          <option>Under 6 hours</option>
-        </select>
       </div>
     </section>
 
@@ -361,13 +354,18 @@
       <div class="grid-2">
         <div class="form-group">
           <label>Implementation Approval Status</label>
-          <div class="meta-value">Pending</div>
+          <div class="meta-value">Not Submitted</div>
         </div>
         <div class="form-group">
           <label>Final Approval Status</label>
-          <div class="meta-value">Pending</div>
+          <div class="meta-value">Not Submitted</div>
         </div>
       </div>
+	  <div class="form-group">
+  <label>Actual Closure Date</label>
+  <div class="meta-value">—</div>
+  <div class="field-hint">System-captured when CC is closed</div>
+</div>
     </section>
 
     <!-- ================== Additional Information ================== -->
