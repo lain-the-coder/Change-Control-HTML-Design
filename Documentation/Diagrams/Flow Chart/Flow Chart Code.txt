@@ -1,0 +1,42 @@
+flowchart TB
+    Start([Start]) --> Initiated
+    
+    Initiated[Initiated] -->|Submit for Approval<br/>CC Owner| PendingImpl[Pending<br/>Implementation<br/>Approval]
+    Initiated -->|Cancel CC<br/>CC Owner| Cancelled[Cancelled]
+    
+    PendingImpl -->|Decision = Approve<br/>Approver| InImpl[In<br/>Implementation]
+    PendingImpl -->|Decision = Reject<br/>Approver| Initiated
+    
+    InImpl -->|Submit for<br/>Final Approval<br/>CC Owner| PendingFinal[Pending<br/>Final<br/>Approval]
+    
+    PendingFinal -->|Final Decision = Approve<br/>Approver| Closed[Closed]
+    PendingFinal -->|Final Decision = Reject<br/>Approver| InImpl
+    
+    Closed --> End([End])
+    Cancelled --> End
+    
+    Initiated -.-> InitNote[CC Owner: 25 editable fields<br/>- Change Details 11 fields<br/>- Planning 4 fields<br/>- Impact & Risk 8 fields<br/>- Implementation Plan 4 fields<br/>- Approvals: Assign Approver<br/>- Comments<br/>Actions: Submit, Cancel]
+    
+    PendingImpl -.-> PendingImplNote[Approver: 3 editable fields<br/>- Decision Approve/Reject<br/>- Risk Level<br/>- Decision Comments<br/>Action: Submit Decision]
+    
+    InImpl -.-> InImplNote[CC Owner: 6 editable fields<br/>- Actual Implementation Date<br/>- Post-Implementation Issues<br/>- Implementation Summary<br/>- Deviations from Plan<br/>- Validation Performed<br/>- Implementation Evidence<br/>Action: Submit for Final Approval]
+    
+    PendingFinal -.-> PendingFinalNote[Approver: 2 editable fields<br/>- Final Decision Approve/Reject<br/>- Final Comments<br/>Action: Submit Decision]
+    
+    Closed -.-> ClosedNote[All fields read-only<br/>Change successfully completed<br/>Audit trail preserved]
+    
+    Cancelled -.-> CancelledNote[All fields read-only<br/>Change terminated by CC Owner<br/>Only from Initiated state]
+    
+    style Initiated fill:#e0f2fe,stroke:#0369a1,stroke-width:2px
+    style PendingImpl fill:#fef3c7,stroke:#92400e,stroke-width:2px
+    style InImpl fill:#ddd6fe,stroke:#5b21b6,stroke-width:2px
+    style PendingFinal fill:#fed7aa,stroke:#9a3412,stroke-width:2px
+    style Closed fill:#d1fae5,stroke:#065f46,stroke-width:2px
+    style Cancelled fill:#fee2e2,stroke:#991b1b,stroke-width:2px
+    
+    style InitNote fill:#fffbeb,stroke:#f59e0b,stroke-width:1px,text-align:left
+    style PendingImplNote fill:#fffbeb,stroke:#f59e0b,stroke-width:1px,text-align:left
+    style InImplNote fill:#fffbeb,stroke:#f59e0b,stroke-width:1px,text-align:left
+    style PendingFinalNote fill:#fffbeb,stroke:#f59e0b,stroke-width:1px,text-align:left
+    style ClosedNote fill:#fffbeb,stroke:#f59e0b,stroke-width:1px,text-align:left
+    style CancelledNote fill:#fffbeb,stroke:#f59e0b,stroke-width:1px,text-align:left

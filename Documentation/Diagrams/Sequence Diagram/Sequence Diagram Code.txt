@@ -1,0 +1,74 @@
+sequenceDiagram
+    actor CCOwner as CC Owner
+    participant System as CC System
+    actor Approver as Approver
+
+    Note over CCOwner,Approver: PHASE 1: CREATE & SUBMIT
+
+    CCOwner->>System: Create CC-001
+    System-->>CCOwner: Show form (25 editable fields)
+    CCOwner->>System: Fill details & assign Approver
+    CCOwner->>System: Submit for Approval
+    System->>System: State: Initiated → Pending Implementation Approval
+    System->>Approver: Task notification (Due: 5 days)
+    System-->>CCOwner: Submitted successfully
+
+    Note over CCOwner,Approver: PHASE 2: IMPLEMENTATION APPROVAL
+
+    Approver->>System: Open CC-001
+    System-->>Approver: Show CC (3 editable fields: Decision, Risk Level, Comments)
+    Approver->>System: Review and set Decision
+    Approver->>System: Submit Decision
+
+    alt Decision = Reject
+        System->>System: State: Pending Implementation Approval → Initiated
+        System->>System: Save rejection in audit table db
+        System->>CCOwner: Rejection notification - revise & resubmit
+        
+        
+        CCOwner->>System: Revise CC-001
+        CCOwner->>System: Resubmit for Approval
+        System->>System: State: Initiated → Pending Implementation Approval
+        System->>Approver: Task notification - review
+        
+        Approver->>System: Set Decision = Approve & Submit
+    end
+
+    System->>System: State: Pending Implementation Approval → In Implementation
+    System->>System: Save approval (Risk Level, Comments, Approval By/On)
+    System->>CCOwner: Approval notification - begin implementation (Due: Target Date - 3 days)
+
+    Note over CCOwner,Approver: PHASE 3: IMPLEMENTATION
+
+    CCOwner->>System: Open CC-001
+    System-->>CCOwner: Show CC (6 editable fields: implementation details)
+    CCOwner->>System: Complete implementation & fill evidence
+    CCOwner->>System: Submit for Final Approval
+    System->>System: State: In Implementation → Pending Final Approval
+    System->>Approver: Task notification - final review (Due: Target Closure Date)
+
+    Note over CCOwner,Approver: PHASE 4: FINAL APPROVAL
+
+    Approver->>System: Open CC-001
+    System-->>Approver: Show CC (2 editable fields: Final Decision, Final Comments)
+    Approver->>System: Review implementation evidence
+    Approver->>System: Set Final Decision & Submit
+
+    alt Final Decision = Reject
+        System->>System: State: Pending Final Approval → In Implementation
+        System->>System: Save rejection in audit table db
+        System->>CCOwner: Rejection notification - improve implementation details
+        
+        CCOwner->>System: Update implementation details
+        CCOwner->>System: Resubmit for Final Approval
+        System->>System: State: In Implementation → Pending Final Approval
+        System->>Approver: Task notification - final review
+        
+        Approver->>System: Set Final Decision = Approve & Submit
+    end
+
+    System->>System: State: Pending Final Approval → Closed
+    System->>System: Save final approval & set Actual Closure Date
+    System->>CCOwner: Success notification - CC closed
+
+    Note over CCOwner,Approver: CHANGE CONTROL COMPLETED
