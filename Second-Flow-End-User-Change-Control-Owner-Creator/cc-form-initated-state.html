@@ -424,9 +424,10 @@
 		  <i class="bi bi-arrow-left"></i> Back to List
       </a>
 
-		<a href="cc-form-cancelled.html" class="btn danger">
-		  <i class="bi bi-x-circle"></i> Cancel CC
-      </a>
+		
+	  <button onclick="showCancelModal()" class="btn danger">
+  <i class="bi bi-x-circle"></i> Cancel CC
+</button>
 	  </div>
 
 	  <div class="actions-right">
@@ -442,6 +443,47 @@
 
   </main>
 </div>
+
+
+<!-- ================== Cancellation Modal ================== -->
+<div class="modal" id="cancelModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 9999;">
+  <div class="modal-content" style="background: white; padding: 32px; border-radius: 8px; max-width: 520px; width: 90%; box-shadow: 0 8px 24px rgba(0,0,0,0.2);">
+    <h3 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 600; color: #1a1a1a;">Cancel Change Control</h3>
+    <p style="margin: 0 0 24px 0; color: #666; line-height: 1.5;">Are you sure you want to cancel CC-001? This action cannot be undone.</p>
+    
+    <div class="form-group" style="margin-bottom: 24px;">
+      <label style="display: block; margin-bottom: 8px; font-weight: 500;">Cancellation Reason *</label>
+      <textarea class="form-control" rows="4" 
+                placeholder="Enter reason for cancellation (required)"
+                style="width: 100%; resize: vertical;"
+                required></textarea>
+      <div class="field-hint" style="margin-top: 6px;">Maximum 500 characters</div>
+    </div>
+    
+<div class="modal-actions" style="display: flex; justify-content: space-between; align-items: center;">
+  <button onclick="hideCancelModal()" class="btn secondary" style="min-width: 60px; text-align: center;">
+    <i class="bi bi-arrow-left"></i> Back
+  </button>
+  <button onclick="confirmCancellation()" class="btn danger" style="min-width: 180px; text-align: center;">
+    <i class="bi bi-x-circle"></i> Confirm Cancellation
+  </button>
+</div>
+  </div>
+</div>
+
+<script>
+  function showCancelModal() {
+    document.getElementById('cancelModal').style.display = 'flex';
+  }
+  function hideCancelModal() {
+    document.getElementById('cancelModal').style.display = 'none';
+  }
+  function confirmCancellation() {
+    // In real app, this would validate and save the cancellation reason
+    // For prototype, just navigate to cancelled page
+    window.location.href = 'cc-form-cancelled.html';
+  }
+</script>
 
 </body>
 </html>
