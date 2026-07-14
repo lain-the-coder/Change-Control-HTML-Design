@@ -3,72 +3,118 @@ sequenceDiagram
     participant System as CC System
     actor Approver as Approver
 
+    Note over CCOwner,Approver: E-SIGNATURE APPLIES TO EVERY DECISION ACTION<br/>System prompts for username + password. Credentials must match the<br/>logged-in user (identity binding). Only on success is the transition<br/>committed — state, fields, signature record, audit and notifications<br/>are written as ONE atomic operation.
+
     Note over CCOwner,Approver: PHASE 1: CREATE & SUBMIT
 
     CCOwner->>System: Create CC-001
     System-->>CCOwner: Show form (25 editable fields)
+    Note right of System: T1 Create — NO signature required
     CCOwner->>System: Fill details & assign Approver
     CCOwner->>System: Submit for Approval
+
+    System->>System: Validate 20 mandatory fields + date rules
+    System-->>CCOwner: Prompt: E-Signature (username + password)
+    CCOwner->>System: Enter credentials
+    System->>System: Validate password + identity binding
+
+    alt Signature INVALID
+        System->>System: Audit: SignatureFailed
+        System-->>CCOwner: Error — no state change, record stays Initiated
+        Note over CCOwner,System: User may retry. This failure path applies at<br/>EVERY signature point below (not repeated for brevity).
+    end
+
+    System->>System: Sign: "Submitted for Implementation Approval"
     System->>System: State: Initiated → Pending Implementation Approval
-    System->>Approver: Task notification (Due: 5 days)
+    System->>Approver: Task notification (Due: 5 business days)
     System-->>CCOwner: Submitted successfully
 
     Note over CCOwner,Approver: PHASE 2: IMPLEMENTATION APPROVAL
 
     Approver->>System: Open CC-001
-    System-->>Approver: Show CC (3 editable fields: Decision, Risk Level, Comments)
+    System-->>Approver: Show CC (3 editable: Decision, Risk Level, Comments)
     Approver->>System: Review and set Decision
     Approver->>System: Submit Decision
 
+    System-->>Approver: Prompt: E-Signature (username + password)
+    Approver->>System: Enter credentials
+    System->>System: Validate password + identity binding
+
     alt Decision = Reject
+        System->>System: Sign: "Rejected - Implementation Approval"
         System->>System: State: Pending Implementation Approval → Initiated
-        System->>System: Save rejection in audit table db
-        System->>CCOwner: Rejection notification - revise & resubmit
-        
-        
+        System->>System: Audit old values, reset Impl Approval Status → Not Submitted
+        Note right of System: Approval By / On NOT populated on reject
+        System->>CCOwner: Rejection notification — revise & resubmit
+
         CCOwner->>System: Revise CC-001
         CCOwner->>System: Resubmit for Approval
+        System-->>CCOwner: Prompt: E-Signature
+        CCOwner->>System: Enter credentials
+        System->>System: Sign: "Submitted for Implementation Approval"
         System->>System: State: Initiated → Pending Implementation Approval
-        System->>Approver: Task notification - review
-        
+        System->>Approver: Task notification — review
+
         Approver->>System: Set Decision = Approve & Submit
+        System-->>Approver: Prompt: E-Signature
+        Approver->>System: Enter credentials
     end
 
+    System->>System: Sign: "Approved - Implementation Approval"
     System->>System: State: Pending Implementation Approval → In Implementation
-    System->>System: Save approval (Risk Level, Comments, Approval By/On)
-    System->>CCOwner: Approval notification - begin implementation (Due: Target Date - 3 days)
+    System->>System: Save Risk Level, Comments, Approval By / On
+    System->>CCOwner: Approval notification (Due: Target Date - 3 business days)
 
     Note over CCOwner,Approver: PHASE 3: IMPLEMENTATION
 
     CCOwner->>System: Open CC-001
-    System-->>CCOwner: Show CC (6 editable fields: implementation details)
-    CCOwner->>System: Complete implementation & fill evidence
+    System-->>CCOwner: Show CC (6 editable: implementation details)
+    CCOwner->>System: Complete implementation & upload evidence
     CCOwner->>System: Submit for Final Approval
+
+    System->>System: Validate 5 mandatory fields + evidence file exists
+    System-->>CCOwner: Prompt: E-Signature (username + password)
+    CCOwner->>System: Enter credentials
+    System->>System: Validate password + identity binding
+
+    System->>System: Sign: "Submitted for Final Approval"
     System->>System: State: In Implementation → Pending Final Approval
-    System->>Approver: Task notification - final review (Due: Target Closure Date)
+    System->>Approver: Task notification (Due: Target Closure Date)
 
     Note over CCOwner,Approver: PHASE 4: FINAL APPROVAL
 
     Approver->>System: Open CC-001
-    System-->>Approver: Show CC (2 editable fields: Final Decision, Final Comments)
+    System-->>Approver: Show CC (2 editable: Final Decision, Final Comments)
     Approver->>System: Review implementation evidence
     Approver->>System: Set Final Decision & Submit
 
+    System-->>Approver: Prompt: E-Signature (username + password)
+    Approver->>System: Enter credentials
+    System->>System: Validate password + identity binding
+
     alt Final Decision = Reject
+        System->>System: Sign: "Rejected - Final Approval"
         System->>System: State: Pending Final Approval → In Implementation
-        System->>System: Save rejection in audit table db
-        System->>CCOwner: Rejection notification - improve implementation details
-        
+        System->>System: Audit old values, reset Final Approval Status → Not Submitted
+        Note right of System: Final Approval By / On NOT populated on reject
+        System->>CCOwner: Rejection notification — improve implementation
+
         CCOwner->>System: Update implementation details
         CCOwner->>System: Resubmit for Final Approval
+        System-->>CCOwner: Prompt: E-Signature
+        CCOwner->>System: Enter credentials
+        System->>System: Sign: "Submitted for Final Approval"
         System->>System: State: In Implementation → Pending Final Approval
-        System->>Approver: Task notification - final review
-        
+        System->>Approver: Task notification — final review
+
         Approver->>System: Set Final Decision = Approve & Submit
+        System-->>Approver: Prompt: E-Signature
+        Approver->>System: Enter credentials
     end
 
+    System->>System: Sign: "Approved - Final Approval"
     System->>System: State: Pending Final Approval → Closed
-    System->>System: Save final approval & set Actual Closure Date
-    System->>CCOwner: Success notification - CC closed
+    System->>System: Save Final Approval By / On + Actual Closure Date
+    System->>CCOwner: Success notification — CC closed
 
-    Note over CCOwner,Approver: CHANGE CONTROL COMPLETED
+    Note over CCOwner,Approver: CHANGE CONTROL COMPLETED<br/>Signature History panel shows every signature event in sequence.
