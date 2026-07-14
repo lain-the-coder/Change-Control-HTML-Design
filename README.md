@@ -1,6 +1,6 @@
-# EAMI QMS — Change Control Module
+# EA QMS — Change Control Module
 
-A digital Change Control module for EAMI's Quality Management System (QMS). Replaces paper-based change control with a workflow-driven web application that enforces role-based permissions, captures a full audit trail, and routes every change through a defined approval lifecycle.
+A digital Change Control module for EA's Quality Management System (QMS). Replaces paper-based change control with a workflow-driven web application that enforces role-based permissions, captures a full audit trail, and routes every change through a defined approval lifecycle.
 
 ---
 
