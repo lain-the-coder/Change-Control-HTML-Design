@@ -101,7 +101,7 @@ Comprehensive DB design split across 10 markdown sections covering ERD, table sp
 
 The actual SQL Server database — built, verified, and tested. Includes all tables, constraints, foreign keys, indexes, lookup/seed data, and 3 stored procedures (`usp_InsertAuditLog`, `usp_CheckActiveRecordsForUser`, `usp_GenerateCCID`).
 
-📄 `EAMI_QMS_ChangeControl_Full_Script.sql`
+📄 `EA_QMS_ChangeControl_Full_Script.sql`
 📄 `DB_Scripts_Creation_Guide.md`
 
 ---
@@ -165,7 +165,7 @@ A quick peek at the upcoming phases — none of these have started yet:
 ├── DB_Design_Document_Section_*.md   # DB design (10 sections)
 ├── DB_DESIGN_HANDOFF_DOCUMENT.md     # DB architecture decisions
 ├── DB_Scripts_Creation_Guide.md      # How to run the SQL script
-└── EAMI_QMS_ChangeControl_Full_Script.sql  # Full DB creation script
+└── EA_QMS_ChangeControl_Full_Script.sql  # Full DB creation script
 ```
 
 All comprehensive documentation lives in this repo — every business rule, field definition, state transition, permission rule, and DB column mapping is documented.
@@ -182,4 +182,4 @@ All comprehensive documentation lives in this repo — every business rule, fiel
 
 ---
 
-**EAMI QMS — Change Control Module** · Phase 1
+**EA QMS — Change Control Module** · Phase 1
