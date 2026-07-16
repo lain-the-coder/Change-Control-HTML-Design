@@ -95,12 +95,6 @@ The physical schema for PostgreSQL. Covers the ER diagram, all 6 table definitio
 
 📄 `EA_QMS_Change_Control_Database_Design_V1_1.docx`
 
-### 8. Backend Engineering Blueprint
-
-The architectural decisions and conventions for the Go implementation — stack, project structure, handler patterns, authentication and session model, transaction handling, the two documented concurrency hazards, and coding principles.
-
-📄 `BACKEND_BLUEPRINT.md`
-
 ## Architecture Approach
 
 **Database-first, with business logic in the application layer:**
@@ -150,7 +144,6 @@ None of these have started yet:
 ├── global.css                                        # Design system / global styles
 │
 ├── EA_QMS_Change_Control_Database_Design_V1_1.docx   # Database design (PostgreSQL)
-└── BACKEND_BLUEPRINT.md                              # Backend architecture & conventions
 ```
 
 All comprehensive documentation lives in this repo — every business rule, field definition, state transition, permission rule, and DB column definition is documented.
