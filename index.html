@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EA QMS — Change Control · Prototype Index</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --light: #9ca3af;
+      --border: #e5e7eb;
+      --bg: #f9fafb;
+      --card: #ffffff;
+      --owner: #2563eb;
+      --approver: #d97706;
+      --admin: #7c3aed;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      padding: 0 24px 80px;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; }
+
+    header {
+      padding: 56px 0 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 15px; font-weight: 600; color: var(--primary);
+      margin-bottom: 20px;
+    }
+    .brand i { font-size: 22px; }
+    h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .lede { font-size: 17px; color: var(--muted); max-width: 720px; }
+
+    .note {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: #fffbeb; border: 1px solid #fde68a; color: #92400e;
+      padding: 12px 16px; border-radius: var(--radius);
+      font-size: 14px; margin-top: 24px; max-width: 720px;
+    }
+    .note i { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+
+    .links-row { display: flex; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
+    .links-row a { font-size: 14px; color: var(--primary); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+    .links-row a:hover { text-decoration: underline; }
+
+    .flow { margin-bottom: 44px; }
+    .flow-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+    .badge {
+      font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+      color: #fff; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .badge.owner { background: var(--owner); }
+    .badge.approver { background: var(--approver); }
+    .badge.admin { background: var(--admin); }
+    .flow h2 { font-size: 21px; font-weight: 700; }
+    .flow-sub { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 16px;
+      text-decoration: none; color: var(--ink);
+      transition: border-color .15s, box-shadow .15s, transform .15s;
+    }
+    .card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 14px rgba(79,70,229,0.10);
+      transform: translateY(-1px);
+    }
+    .card i { font-size: 18px; color: var(--light); flex-shrink: 0; }
+    .card:hover i { color: var(--primary); }
+    .card-txt { display: flex; flex-direction: column; }
+    .card-txt .t { font-size: 14px; font-weight: 600; }
+    .card-txt .s { font-size: 12px; color: var(--muted); }
+
+    .sub-label {
+      grid-column: 1 / -1;
+      font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--light);
+      margin-top: 8px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border); padding-top: 24px; margin-top: 20px;
+      color: var(--light); font-size: 13px;
+    }
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand"><i class="bi bi-files"></i> EA QMS · Change Control</div>
+    <h1>Change Control Module — UI Prototypes</h1>
+    <p class="lede">
+      Interactive HTML prototypes for a workflow-driven Change Control system, covering every
+      state of the six-state approval lifecycle from the perspective of each user role.
+    </p>
+
+    <div class="note">
+      <i class="bi bi-info-circle-fill"></i>
+      <span>Static UI prototype — no backend. Navigation works between screens, but data does not persist
+      and forms are illustrative. This is one part of a full design package: see the BRD, database
+      design, and security matrix in the repository.</span>
+    </div>
+
+    <div class="links-row">
+      <a href="https://github.com/lain-the-coder/Change-Control-HTML-Design"><i class="bi bi-github"></i> Repository</a>
+      <a href="https://github.com/lain-the-coder/Change-Control-HTML-Design/tree/main/Documentation"><i class="bi bi-folder"></i> Documentation (BRD · DB Design · Security Matrix)</a>
+    </div>
+  </header>
+
+  <!-- ============ CC OWNER ============ -->
+  <section class="flow">
+    <div class="flow-head">
+      <span class="badge owner">CC Owner</span>
+      <h2>Change Control Owner / Creator</h2>
+    </div>
+    <p class="flow-sub">Creates change controls, drafts and submits them, records implementation, and moves them through the workflow.</p>
+    <div class="grid">
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/login.html"><i class="bi bi-box-arrow-in-right"></i><span class="card-txt"><span class="t">Login</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/dashboard-cc-owner.html"><i class="bi bi-speedometer2"></i><span class="card-txt"><span class="t">Dashboard</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/my-change-controls.html"><i class="bi bi-list-check"></i><span class="card-txt"><span class="t">My Change Controls</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/all-change-controls.html"><i class="bi bi-grid-3x3-gap"></i><span class="card-txt"><span class="t">All Change Controls</span></span></a>
+
+      <div class="sub-label">Change Control form — every state</div>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/cc-form-initated-state.html"><i class="bi bi-pencil-square"></i><span class="card-txt"><span class="t">Initiated</span><span class="s">Draft &amp; submit</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/cc-form-pending-implementation-approval-user-view.html"><i class="bi bi-hourglass-split"></i><span class="card-txt"><span class="t">Pending Impl. Approval</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/cc-form-in-implementation-implementer-view.html"><i class="bi bi-gear"></i><span class="card-txt"><span class="t">In Implementation</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/cc-form-pending-final-approval-implementer-view.html"><i class="bi bi-hourglass-split"></i><span class="card-txt"><span class="t">Pending Final Approval</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/cc-form-closed.html"><i class="bi bi-check-circle"></i><span class="card-txt"><span class="t">Closed</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/cc-form-cancelled.html"><i class="bi bi-x-circle"></i><span class="card-txt"><span class="t">Cancelled</span></span></a>
+
+      <div class="sub-label">Account</div>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/settings-profile-enduser.html"><i class="bi bi-person-circle"></i><span class="card-txt"><span class="t">Profile</span></span></a>
+    </div>
+  </section>
+
+  <!-- ============ APPROVER ============ -->
+  <section class="flow">
+    <div class="flow-head">
+      <span class="badge approver">Approver</span>
+      <h2>Change Control Approver</h2>
+    </div>
+    <p class="flow-sub">Reviews submitted change controls and approves or rejects at the two decision gates, signing each decision electronically.</p>
+    <div class="grid">
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/login.html"><i class="bi bi-box-arrow-in-right"></i><span class="card-txt"><span class="t">Login</span></span></a>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/dashboard-approver.html"><i class="bi bi-speedometer2"></i><span class="card-txt"><span class="t">Dashboard</span></span></a>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/approvals.html"><i class="bi bi-inbox"></i><span class="card-txt"><span class="t">Approvals Queue</span></span></a>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/all-change-controls.html"><i class="bi bi-grid-3x3-gap"></i><span class="card-txt"><span class="t">All Change Controls</span></span></a>
+
+      <div class="sub-label">Change Control form — approver views</div>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/cc-form-initated-state-approver-view.html"><i class="bi bi-eye"></i><span class="card-txt"><span class="t">Initiated</span><span class="s">Read-only</span></span></a>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/cc-form-pending-implementation-approval-approver-view.html"><i class="bi bi-pen"></i><span class="card-txt"><span class="t">Pending Impl. Approval</span><span class="s">Decision gate</span></span></a>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/cc-form-in-implementation-approver-view.html"><i class="bi bi-eye"></i><span class="card-txt"><span class="t">In Implementation</span></span></a>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/cc-form-pending-final-approval-approver-view.html"><i class="bi bi-pen"></i><span class="card-txt"><span class="t">Pending Final Approval</span><span class="s">Decision gate</span></span></a>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/cc-form-closed.html"><i class="bi bi-check-circle"></i><span class="card-txt"><span class="t">Closed</span></span></a>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/cc-form-cancelled.html"><i class="bi bi-x-circle"></i><span class="card-txt"><span class="t">Cancelled</span></span></a>
+
+      <div class="sub-label">Account</div>
+      <a class="card" href="HTML/Third-Flow-End-User-Approver/settings-profile-enduser.html"><i class="bi bi-person-circle"></i><span class="card-txt"><span class="t">Profile</span></span></a>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN ============ -->
+  <section class="flow">
+    <div class="flow-head">
+      <span class="badge admin">Admin</span>
+      <h2>System Administrator</h2>
+    </div>
+    <p class="flow-sub">Manages user accounts and roles. Read-only visibility into change controls.</p>
+    <div class="grid">
+      <a class="card" href="HTML/First-Flow-Admin-User/login.html"><i class="bi bi-box-arrow-in-right"></i><span class="card-txt"><span class="t">Login</span></span></a>
+      <a class="card" href="HTML/First-Flow-Admin-User/dashboard-empty.html"><i class="bi bi-speedometer2"></i><span class="card-txt"><span class="t">Dashboard</span></span></a>
+      <a class="card" href="HTML/First-Flow-Admin-User/settings-admin.html"><i class="bi bi-people"></i><span class="card-txt"><span class="t">User Management</span><span class="s">Create users, edit roles</span></span></a>
+      <a class="card" href="HTML/First-Flow-Admin-User/all-change-controls.html"><i class="bi bi-grid-3x3-gap"></i><span class="card-txt"><span class="t">All Change Controls</span></span></a>
+      <a class="card" href="HTML/First-Flow-Admin-User/cc-form-closed.html"><i class="bi bi-file-text"></i><span class="card-txt"><span class="t">CC Record (read-only)</span></span></a>
+
+      <div class="sub-label">Account</div>
+      <a class="card" href="HTML/First-Flow-Admin-User/settings-profile.html"><i class="bi bi-person-circle"></i><span class="card-txt"><span class="t">Profile</span></span></a>
+    </div>
+  </section>
+
+  <!-- ============ SHARED ============ -->
+  <section class="flow">
+    <div class="flow-head">
+      <span class="badge" style="background:var(--muted);">Shared</span>
+      <h2>Authentication &amp; Email</h2>
+    </div>
+    <p class="flow-sub">Screens common to all roles. (Password reset is prototyped but out of scope for Phase 1.)</p>
+    <div class="grid">
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/forgot-password.html"><i class="bi bi-key"></i><span class="card-txt"><span class="t">Forgot Password</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/reset-password.html"><i class="bi bi-arrow-repeat"></i><span class="card-txt"><span class="t">Reset Password</span></span></a>
+      <a class="card" href="HTML/Second-Flow-End-User-Change-Control-Owner-Creator/email-reset-password.html"><i class="bi bi-envelope"></i><span class="card-txt"><span class="t">Reset Email Template</span></span></a>
+    </div>
+  </section>
+
+  <footer>
+    EA QMS — Change Control Module · Phase 1 · UI Prototypes ·
+    <a href="https://github.com/lain-the-coder/Change-Control-HTML-Design">source on GitHub</a>
+  </footer>
+
+</div>
+</body>
+</html>
