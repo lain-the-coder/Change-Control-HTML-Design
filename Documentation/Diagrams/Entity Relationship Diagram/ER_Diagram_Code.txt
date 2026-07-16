@@ -1,0 +1,80 @@
+erDiagram
+    users ||--o{ change_controls : "owns / approves"
+    users ||--o{ file_attachments : "uploads"
+    users ||--o{ audit_logs : "performs"
+    users ||--o{ esignatures : "signs"
+    users ||--o{ refresh_tokens : "holds"
+    change_controls ||--o{ file_attachments : "has"
+    change_controls ||--o{ esignatures : "is signed by"
+
+    users {
+        uuid id PK
+        text email UK
+        text full_name
+        text hashed_password
+        text role
+        boolean is_active
+        timestamptz created_on
+        timestamptz updated_on
+    }
+
+    change_controls {
+        uuid id PK
+        text cc_id UK
+        bigint cc_number
+        text current_state
+        uuid change_owner_id FK
+        uuid last_updated_by_id FK
+        uuid assigned_approver_id FK
+        uuid implementation_approval_by_id FK
+        uuid final_approval_by_id FK
+        text change_title
+        text decision
+        text final_decision
+        text implementation_approval_status
+        text final_approval_status
+        text cancellation_reason
+        timestamptz created_on
+        timestamptz last_updated_on
+    }
+
+    file_attachments {
+        uuid id PK
+        uuid change_control_id FK
+        uuid uploaded_by_id FK
+        text field_name
+        text file_name
+        bytea file_data
+        timestamptz uploaded_on
+    }
+
+    audit_logs {
+        uuid id PK
+        text entity_type
+        uuid entity_id
+        text action_type
+        text field_name
+        text old_value
+        text new_value
+        uuid performed_by_id FK
+        text performed_by_name
+        timestamptz created_on
+    }
+
+    esignatures {
+        uuid id PK
+        uuid change_control_id FK
+        uuid signer_id FK
+        text signer_name
+        text transition
+        text meaning
+        timestamptz signed_on
+    }
+
+    refresh_tokens {
+        text token PK
+        uuid user_id FK
+        timestamptz expires_at
+        timestamptz updated_on
+        timestamptz revoked_at
+    }
