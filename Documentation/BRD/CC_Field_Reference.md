@@ -1,7 +1,8 @@
 # EAMI QMS Change Control — Field Reference (Condensed)
 
-**Source:** BRD V1.1, Appendix D (all 50 fields read in full).
+**Source:** BRD V1.2, Appendix D (all 50 fields read in full).
 **Purpose:** Single working reference for the Postgres schema and the Go validators. Replaces the need to re-read Appendix D.
+**Revision:** V1.2 — aligned with the built backend. Changes are marked ⬥ below.
 
 **Legend for "Mandatory":**
 - `SYS` = system-generated, no user input, never validated
@@ -44,8 +45,8 @@
 
 | # | field_id | Type | Mandatory | Max | Valid Values / Rules |
 |---|----------|------|-----------|-----|----------------------|
-| 13 | `proposed_implementation_date` | date | **T2** | — | ≥ **2 business days** from today AND **must be in the future at submission**. Re-validated if user corrects a stale date. Business days = weekdays only (no public holidays in Phase 1). |
-| 14 | `target_closure_date` | date | **T2** | — | ≥ **10 business days** from today AND **must be in the future at submission**. Same re-validation rule. Editable whenever state = Initiated (incl. after rejection). |
+| 13 | `proposed_implementation_date` | date | **T2** | — | ≥ **2 business days** from today AND **must be in the future at submission**. Re-validated if user corrects a stale date. Business days = weekdays only (no public holidays in Phase 1). ⬥ Computed in **UTC** (BRD §13.1 L13). 🔒 **Audit-tracked** (BRD §6.6.2). |
+| 14 | `target_closure_date` | date | **T2** | — | ≥ **10 business days** from today AND **must be in the future at submission**. Same re-validation rule. Editable whenever state = Initiated (incl. after rejection) — ⬥ BRD SC-6's "locked after initial submission" clause was removed in V1.2 as it contradicted this. ⬥ Computed in **UTC**. 🔒 **Audit-tracked** (BRD §6.6.2). |
 | 15 | `implementation_window_start` | time | — | — | Optional. **No cross-field validation vs. End in Phase 1.** |
 | 16 | `implementation_window_end` | time | — | — | Optional. Same. |
 
@@ -62,7 +63,7 @@
 | 21 | `requires_training` | dropdown | **T2** | 30 | `Yes` · `No` · `Not applicable` |
 | 22 | `risk_rationale` | textarea | **T2** | 2000 | Not empty/whitespace. ⚠️ This is the **Owner's** rationale — *not* the Risk Level (field 38, Approver-set). |
 | 23 | `key_risks_mitigations` | textarea | **T2** | 2000 | Not empty/whitespace. |
-| 24 | `supporting_documents` | file | — | 10 MB | **Optional.** Types: PDF, DOCX, XLSX, PNG, JPG. **Single file only** (replace on re-upload). |
+| 24 | `supporting_documents` | file | — | 10 MB | ⬥ **NOT IMPLEMENTED IN PHASE 1** (BRD §13.1 L12). The schema and the `ck_file_attachments_field_name` CHECK permit it; the API whitelist does not. Optional when implemented. **Single file only** (replace on re-upload). |
 
 ---
 
@@ -79,14 +80,19 @@
 
 ## Group 6 — Implementation Details (Fields 29–34) · CC Owner, **In Implementation** only
 
+⬥ Fields 29–33 are written by `PUT /api/changecontrols/{ccID}/implementation` — a save endpoint
+added during implementation so the owner can save progress in this state, exactly as `Initiated`
+allows. **T6 carries no field values**; it validates what is already stored. Field 34 is written
+by the file upload endpoint.
+
 | # | field_id | Type | Mandatory | Max | Valid Values / Rules |
 |---|----------|------|-----------|-----|----------------------|
-| 29 | `actual_implementation_date` | date | **T6** | — | Retrospective date — **no minimum lead-time rule.** |
+| 29 | `actual_implementation_date` | date | **T6** | — | Retrospective date — **no minimum lead-time rule.** ⬥ **Must not be in the future**, validated at **T6 only**: the save endpoint accepts any date, so an owner can draft on Monday for work scheduled Wednesday. Computed in **UTC**. |
 | 30 | `post_implementation_issues` | dropdown | **T6** | 50 | `None` · `Minor issues resolved` · `Issues requiring follow-up` ⚠️ **DROPDOWN, not textarea** |
 | 31 | `implementation_summary` | textarea | **T6** | 2000 | Not empty/whitespace. |
 | 32 | `deviations_from_plan` | textarea | — | 2000 | **Optional.** |
 | 33 | `validation_performed` | textarea | **T6** | 2000 | Not empty/whitespace. |
-| 34 | `implementation_evidence` | file | **T6** | 10 MB | **Mandatory at T6** — file must exist or submission is blocked. Types: PDF, DOCX, XLSX, PNG, JPG. Single file only. |
+| 34 | `implementation_evidence` | file | **T6** | 10 MB | **Mandatory at T6** — file must exist or submission is blocked. ⬥ **PDF only** (BRD BR-8.2.13 as amended in V1.2); type verified by inspecting file contents, not the extension or the declared content type. Single file only (replace on re-upload). |
 
 ---
 
@@ -156,7 +162,7 @@
 
 # ⚠️ CANONICAL STRING VALUES — READ BEFORE WRITING ANY CODE
 
-**The BRD (V1.1) and the HTML prototypes contain EN-DASHES (–, U+2013) in six enum values.**
+**The BRD (V1.1 and V1.2) and the HTML prototypes contain EN-DASHES (–, U+2013) in six enum values.**
 **The implementation uses ASCII HYPHENS (-, U+002D). This document is the authority.**
 
 ### Root cause
@@ -179,7 +185,7 @@ Microsoft Word's AutoCorrect silently converts `word - word` → `word – word`
 - API request/response payloads
 - **The frontend, whenever it is built** — the form must POST the hyphen version, or the API will reject it
 
-### 🚩 OPEN RISK
+### 🚩 OPEN RISK — still open as of V1.2
 The HTML prototypes still carry `<option value="Yes – Full testing">` with an en-dash. **If the frontend is built by copying those option values verbatim, every submission will fail the CHECK constraint with a confusing 400.** Either correct the prototypes before frontend work begins, or normalise en-dash → hyphen at the API boundary.
 
 ### Everything else in the BRD is fine
@@ -274,6 +280,39 @@ All other fields (descriptions, impacts, plans, summaries) are **NOT** individua
 
 ---
 
+# 🔒 Audit scope — the nine tracked fields (BRD §6.6.2)
+
+⬥ **Only these nine field changes are audited.** FR-6.6.6 is explicit that non-critical field
+changes — it names Change Description and Business Impact — generate **no** audit entry. The
+trail records compliance-relevant decisions, not typing.
+
+| # | Field | Written at | Note |
+|---|-------|-----------|------|
+| 13 | `proposed_implementation_date` | Save Draft | |
+| 14 | `target_closure_date` | Save Draft | |
+| 35 | `assign_approver` | Save Draft | ⬥ recorded as **names**, not UUIDs, so the trail reads without a join |
+| 37 | `decision` | T4/T5 | overwritten on re-review |
+| 38 | `risk_level` | T4/T5 | overwritten on re-review |
+| 39 | `decision_comments` | T4/T5 | overwritten on re-review |
+| 42 | `final_decision` | T7/T8 | overwritten on re-review |
+| 43 | `final_comments` | T7/T8 | overwritten on re-review |
+| 50 | `cancellation_reason` | T3 | permanently read-only once written |
+
+**Everything else is unaudited**, including all five implementation-detail fields (29–33) and
+all 21 non-tracked Save Draft fields. Record-level events (`Created`, `StateChanged`,
+`SignatureCaptured`, `SignatureFailed`) and the four user-management events are audited
+separately and are not field changes.
+
+⬥ **File uploads write no audit row.** An audit row could not preserve the *replaced file* — the
+upsert overwrites the bytes — so a row reading `evidence-v1.pdf → evidence-v2.pdf` would
+advertise a gap rather than close one, claiming a document existed while being unable to
+produce it.
+
+**FR-6.6.5:** each critical field change is a **separate** audit entry, and **multiple entries
+from one action share one timestamp.**
+
+---
+
 # ⚠️ Gotchas — the things that will bite you
 
 1. **The BRD and HTML contain EN-DASHES (–) in six enum values. The implementation uses ASCII HYPHENS (-).**
@@ -299,3 +338,22 @@ All other fields (descriptions, impacts, plans, summaries) are **NOT** individua
 9. **Business days = Mon–Fri only.** No public holiday calendar in Phase 1 (deferred — see §13.2).
 
 10. **Single file per upload field.** Re-uploading replaces; it does not append.
+
+11. ⬥ **Only nine field changes are audited** — see the Audit Scope section above. Assuming every
+    field is tracked would put roughly forty spurious rows on a single record and make the trail
+    harder to read, not more complete.
+
+12. ⬥ **`implementation_evidence` is PDF only**, verified by inspecting the file's contents. The
+    extension is checked first only for a clearer error message; a renamed PNG passes that check
+    and fails on the magic bytes.
+
+13. ⬥ **Date and time fields accept only RFC 3339**, and only `null` clears them — an empty string
+    is a parse error, unlike text fields where `""` normalises to NULL. The two `TIME` columns
+    (15, 16) return as `0000-01-01T09:00:00Z`, since Go's `time.Time` always carries a date and a
+    `TIME` column has none. The date part is an artifact; strip it for display.
+
+14. ⬥ **`actual_implementation_date` (29) must not be in the future** — but only at T6. The save
+    endpoint accepts any date, so an owner can draft on Monday for work scheduled Wednesday.
+
+15. ⬥ **All date rules are computed in UTC.** In a UTC+ deployment, a submission between midnight
+    and the offset is evaluated against the previous calendar day (BRD §13.1 L13).
